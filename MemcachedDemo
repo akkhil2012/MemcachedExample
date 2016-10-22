@@ -1,0 +1,79 @@
+package com.memo;
+
+import java.io.IOError;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+
+import net.spy.memcached.MemcachedClient;
+
+public class MemcachedDemo {
+	
+	private static final String NAME_SPACE = "com.memo.sample";
+	
+	public static void main(String args[]) {
+		Memo memo = new Memo();
+		memo.setId(1);
+		memo.setRegion("india");
+		
+		try{
+			
+			MemcachedClient c = 
+					new MemcachedClient(new InetSocketAddress("127.0.0.1", 11211));
+			
+			String key1 = "key1";
+			String valu1="vaue1";
+			
+			String key2 = "key2";
+			String valu2="vaue2";
+			
+			Memo m1 = new Memo();
+			m1.setId(200);
+			m1.setRegion("india");
+			
+			Memo m2 = new Memo();
+			m2.setId(3200);
+			m2.setRegion("phillipines");
+			
+			c.set(NAME_SPACE+key1, 10, m1);
+			c.set(NAME_SPACE+key2, 10, m2);
+			
+			Object m1_obj = c.get(NAME_SPACE+key1);
+			
+			System.out.println(" Object saved in cache  for memo1" + m1_obj);
+			
+			Object m2_obj = c.get(NAME_SPACE+key2);
+			
+			System.out.println("Object saved in cache  for memo2 " + m2_obj);
+			
+			System.out.println(" Stats " + c.getStats());
+			
+		//	c.set("key_one", 3600, memo);
+			
+		/*	c.delete(NAME_SPACE+key2);
+			
+			System.out.println("After deletion from cache ..............");
+			
+			Object m2_obj_dup = c.get(NAME_SPACE+key2);
+			
+			System.out.println("Object after deletion from cache  " + m2_obj_dup);*/
+			
+			/*Object ob = c.get("key_one");
+			
+			System.out.println(" Object saved in cache " + ob);
+			
+			System.out.println(" Stats " + c.getStats());
+			
+			System.out.println(" Stats  for individual items " + c.getStats("items"));
+			
+			c.delete("key_one");*/
+			
+			c.shutdown();
+			
+		}catch(IOException ex){
+			ex.printStackTrace();
+		}
+		
+		
+	}
+
+}
