@@ -1,0 +1,32 @@
+package com.memo;
+
+import java.io.Serializable;
+
+public class Memo implements Serializable{
+	
+	@Override
+	public String toString() {
+		return "Memo [id=" + id + ", region=" + region + "]";
+	}
+
+	private long id;
+	
+	private String region;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+}
